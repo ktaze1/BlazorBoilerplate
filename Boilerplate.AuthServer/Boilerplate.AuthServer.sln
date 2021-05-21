@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.ClientUI", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.AdminUI", "..\Boilerplate.AdminUI\Boilerplate.AdminUI.csproj", "{83B465F6-184D-4C6B-8197-2649A5F431D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.API", "..\Boilerplate.API\Boilerplate.API.csproj", "{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{83B465F6-184D-4C6B-8197-2649A5F431D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83B465F6-184D-4C6B-8197-2649A5F431D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83B465F6-184D-4C6B-8197-2649A5F431D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{CB92D79C-C0E7-410E-BF10-9ADFCD9AE121} = {124021F6-2AE8-4FA7-88E6-D294F60BDFDD}
 		{61467F07-E85A-4F77-A67B-CD97118A2BAA} = {DFBE0245-E7A4-400F-88D8-D8CA747A56AD}
 		{83B465F6-184D-4C6B-8197-2649A5F431D7} = {DFBE0245-E7A4-400F-88D8-D8CA747A56AD}
+		{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64} = {E8C52FD6-731D-4427-BCE7-7652B433C858}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A32B832-E1D4-4173-B06B-30878377835A}

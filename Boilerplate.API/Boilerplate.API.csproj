@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Boilerplate.Shared.Models\Boilerplate.Shared.Models.csproj" />
+    <ProjectReference Include="..\Boilerplate.Shared.Services\Boilerplate.Shared.Services.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -12,4 +12,9 @@
     <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Boilerplate.Shared.Models\Boilerplate.Shared.Models.csproj" />
+    <ProjectReference Include="..\Boilerplate.Shared.Services\Boilerplate.Shared.Services.csproj" />
+  </ItemGroup>
+
 </Project>
