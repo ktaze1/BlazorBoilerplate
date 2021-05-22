@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.15" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Boilerplate.Shared.Models\Boilerplate.Shared.Models.csproj" />
     <ProjectReference Include="..\Boilerplate.Shared.Services\Boilerplate.Shared.Services.csproj" />
   </ItemGroup>
