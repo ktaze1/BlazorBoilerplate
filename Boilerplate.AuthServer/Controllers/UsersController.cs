@@ -9,7 +9,9 @@ using Boilerplate.Shared.Models;
 
 namespace Boilerplate.AuthServer.Controllers
 {
-    public class UsersController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UsersController : ControllerBase
     {
         private readonly aspnetBoilerplateContext _context;
 
@@ -18,10 +20,11 @@ namespace Boilerplate.AuthServer.Controllers
             _context = context;
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<string> Index()
         {
-            return View(await _context.AspNetUsers.ToListAsync());
+            return "123";
+            //return View(await _context.AspNetUsers.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -39,13 +42,13 @@ namespace Boilerplate.AuthServer.Controllers
                 return NotFound();
             }
 
-            return View(aspNetUsers);
+            return Ok(aspNetUsers);
         }
 
         // GET: Users/Create
         public IActionResult Create()
         {
-            return View();
+            return Ok();
         }
 
         // POST: Users/Create
@@ -61,7 +64,7 @@ namespace Boilerplate.AuthServer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(aspNetUsers);
+            return Ok(aspNetUsers);
         }
 
         // GET: Users/Edit/5
@@ -77,7 +80,7 @@ namespace Boilerplate.AuthServer.Controllers
             {
                 return NotFound();
             }
-            return View(aspNetUsers);
+            return Ok(aspNetUsers);
         }
 
         // POST: Users/Edit/5
@@ -112,7 +115,7 @@ namespace Boilerplate.AuthServer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(aspNetUsers);
+            return Ok(aspNetUsers);
         }
 
         // GET: Users/Delete/5
@@ -130,7 +133,7 @@ namespace Boilerplate.AuthServer.Controllers
                 return NotFound();
             }
 
-            return View(aspNetUsers);
+            return Ok(aspNetUsers);
         }
 
         // POST: Users/Delete/5
