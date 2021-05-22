@@ -1,3 +1,7 @@
+using Blazored.SessionStorage;
+using Boilerplate.AdminUI.Security;
+using Boilerplate.Shared.Services;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +21,19 @@ namespace Boilerplate.AdminUI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthStateProvider>();
+            builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<AuthStateProvider>());
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
+            builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration.GetValue<string>("services:webApiAuthUrl"));
+            });
+            builder.Services.AddBlazoredSessionStorage();
 
             await builder.Build().RunAsync();
         }
