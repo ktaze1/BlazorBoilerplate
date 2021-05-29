@@ -1,4 +1,4 @@
-﻿# Blazor Boilerplate Dökümantasyon
+﻿# Blazor Boilerplate Dokümantasyon
 
 Bu döküman Client tarafında Blazor WebAssembly, Server tarafında ise .NET Core kullanılan projenin nasıl geliştirildiğini anlatmak için hazırlanmıştır.
 
