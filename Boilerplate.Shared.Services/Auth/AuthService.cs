@@ -23,13 +23,13 @@ namespace Boilerplate.Shared.Services
 
         public async Task<CurrentUser> CurrentUserInfo()
         {
-            var result = await _httpClient.GetFromJsonAsync<CurrentUser>("api/account/GetCurrentUserInfo");
+            var result = await _httpClient.GetFromJsonAsync<CurrentUser>("api/Users/GetCurrentUserInfo");
             return result;
         }
 
         public async Task<Response<LoginResultDto>> Authenticate(LoginDto loginRequest)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Account/Login", loginRequest);
+            var response = await _httpClient.PostAsJsonAsync("api/Users/Login", loginRequest);
 
             var resultString = await response.Content.ReadAsStringAsync();
 
@@ -45,13 +45,13 @@ namespace Boilerplate.Shared.Services
 
         public async Task Logout()
         {
-            var result = await _httpClient.PostAsync("api/auth/logout", null);
+            var result = await _httpClient.PostAsync("api/Users/logout", null);
             result.EnsureSuccessStatusCode();
         }
 
         public async Task Register(RegisterDto registerRequest)
         {
-            var result = await _httpClient.PostAsJsonAsync("api/auth/register", registerRequest);
+            var result = await _httpClient.PostAsJsonAsync("api/Users/register", registerRequest);
             if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
             result.EnsureSuccessStatusCode();
         }

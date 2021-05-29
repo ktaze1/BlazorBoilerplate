@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.AuthServer", "Boilerplate.AuthServer.csproj", "{8C0D8996-6B7F-4D88-AA8B-7AD77DBF4AC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.AuthServer", "Boilerplate.AuthServer.csproj", "{8C0D8996-6B7F-4D88-AA8B-7AD77DBF4AC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Shared.Models", "..\Boilerplate.Shared.Models\Boilerplate.Shared.Models.csproj", "{1CD4C986-E382-4327-A1FF-46D22856EC56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Shared.Models", "..\Boilerplate.Shared.Models\Boilerplate.Shared.Models.csproj", "{1CD4C986-E382-4327-A1FF-46D22856EC56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.Shared.Services", "..\Boilerplate.Shared.Services\Boilerplate.Shared.Services.csproj", "{CB92D79C-C0E7-410E-BF10-9ADFCD9AE121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.Shared.Services", "..\Boilerplate.Shared.Services\Boilerplate.Shared.Services.csproj", "{CB92D79C-C0E7-410E-BF10-9ADFCD9AE121}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{124021F6-2AE8-4FA7-88E6-D294F60BDFDD}"
 EndProject
@@ -17,11 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{DFBE02
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E8C52FD6-731D-4427-BCE7-7652B433C858}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.ClientUI", "..\Boilerplate.ClientUI\Boilerplate.ClientUI.csproj", "{61467F07-E85A-4F77-A67B-CD97118A2BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.ClientUI", "..\Boilerplate.ClientUI\Boilerplate.ClientUI.csproj", "{61467F07-E85A-4F77-A67B-CD97118A2BAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.AdminUI", "..\Boilerplate.AdminUI\Boilerplate.AdminUI.csproj", "{83B465F6-184D-4C6B-8197-2649A5F431D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.AdminUI", "..\Boilerplate.AdminUI\Boilerplate.AdminUI.csproj", "{83B465F6-184D-4C6B-8197-2649A5F431D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boilerplate.API", "..\Boilerplate.API\Boilerplate.API.csproj", "{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boilerplate.API", "..\Boilerplate.API\Boilerplate.API.csproj", "{44E4E2AB-B396-4BBA-8BEC-C65DAAAF7E64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -79,13 +79,9 @@ namespace Boilerplate.AuthServer
                 options => options.AddPolicy(
                     _defaultCorsPolicyName,
                     builder => builder
-                        .WithOrigins(
-                            // App:CorsOrigins in appsettings.json can contain more than one address separated by comma.
-                            Configuration["App:CorsOrigins"]
-                        )
+                        .AllowAnyOrigin()
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials()
                 )
             );
 
@@ -121,6 +117,8 @@ namespace Boilerplate.AuthServer
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors(_defaultCorsPolicyName);
 
             app.UseAuthentication();
             app.UseAuthorization();

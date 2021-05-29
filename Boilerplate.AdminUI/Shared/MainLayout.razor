@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navManager
+@inject AuthStateProvider authStateProvider
 
 <div class="sidebar">
     <NavMenu />
@@ -7,9 +9,25 @@
 <div class="main">
     <div class="top-row px-4">
         <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        &nbsp;
+        <button @onclick="@( () => authStateProvider.MarkUserAsLoggedOut())" class="btn btn-dark">Log out</button>
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+
+@code {
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationState { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!(await authenticationState).User.Identity.IsAuthenticated)
+        {
+            navManager.NavigateTo("/login"); 
+        }
+    }
+}

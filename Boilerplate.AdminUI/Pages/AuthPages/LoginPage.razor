@@ -1,0 +1,62 @@
+﻿@page "/login"
+@layout NoAuthLayout
+
+@inject AuthStateProvider authStateProvider
+@inject NavigationManager navManager
+
+<center class="login-page-container mb-1 mt-4">
+    <div class="login-box card">
+        <h4 class="login-label"> Login </h4>
+        <EditForm Model="loginDto" OnValidSubmit="@(async () => await Login())">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="loginDto.Email" class="form-control" placeholder="Please Enter Your E-mail"/>
+                    <ValidationMessage For="@( () => loginDto.Email)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="loginDto.Password" class="form-control" placeholder="Please Enter Your Password" />
+                    <ValidationMessage For="@( () => loginDto.Password)" />
+                </div>
+            </div>
+
+            <p class="text-danger" style="font-size: 12px;">@Error</p>
+
+            <div class="form-group row login-btn mr-0 ml-0 pr-0 pl-0">
+                <button type="submit"
+                        class="btn btn-primary btn-block">
+                    Log In
+                </button>
+            </div>
+            <br />
+            <div class="form-group row login-btn mr-0 ml-0 pr-0 pl-0">
+                <button @onclick="@( () => navManager.NavigateTo("register"))" type="button" class="btn btn-secondary btn-block">Register</button>
+            </div>
+        </EditForm>
+    </div>
+</center>
+
+
+@code{
+
+    private LoginDto loginDto = new LoginDto();
+    private string Error { get; set; }
+
+    private async Task Login()
+    {
+        try
+        {
+            await authStateProvider.MarkUserAsAuthenticated(loginDto);
+            navManager.NavigateTo("/");
+
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+}

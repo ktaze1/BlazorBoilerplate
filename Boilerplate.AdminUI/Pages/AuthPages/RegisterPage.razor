@@ -1,0 +1,83 @@
+﻿@page "/register"
+@layout NoAuthLayout
+
+@inject NavigationManager navManager
+@inject IAuthService authService
+
+
+<center class="login-page-container mb-1 mt-4">
+    <div class="login-box card">
+        <h4 class="login-label"> Login </h4>
+        <EditForm Model="registerDto" OnValidSubmit="@(async () => await Register())">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="registerDto.Name" class="form-control" placeholder="Please Enter Your Name" />
+                    <ValidationMessage For="@( () => registerDto.Name)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="registerDto.Surname" class="form-control" placeholder="Please Enter Your Surname" />
+                    <ValidationMessage For="@( () => registerDto.Surname)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="registerDto.PhoneNumber" class="form-control" placeholder="Please Enter Your Phone Number" />
+                    <ValidationMessage For="@( () => registerDto.PhoneNumber)" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="registerDto.Email" class="form-control" placeholder="Please Enter Your Mail" />
+                    <ValidationMessage For="@( () => registerDto.Email)" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="registerDto.Password" type="password" class="form-control" placeholder="Please Enter Your Password" />
+                    <ValidationMessage For="@( () => registerDto.Password)" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <InputText @bind-Value="registerDto.ConfirmPassword" type="password" class="form-control" placeholder="Please Re-Enter Your Passwor" />
+                    <ValidationMessage For="@( () => registerDto.ConfirmPassword)" />
+                </div>
+            </div>
+
+            <p class="text-danger" style="font-size: 12px;">@Error</p>
+
+            <div class="form-group row login-btn mr-0 ml-0 pr-0 pl-0">
+                <button type="submit"
+                        class="btn btn-primary btn-block">
+                    Register
+                </button>
+            </div>
+            <br />
+        </EditForm>
+    </div>
+</center>
+
+
+@code {
+
+    private RegisterDto registerDto = new RegisterDto();
+    private string Error { get; set; }
+
+
+    private async Task Register()
+    {
+        await authService.Register(registerDto);
+        navManager.NavigateTo("login");
+    }
+}
