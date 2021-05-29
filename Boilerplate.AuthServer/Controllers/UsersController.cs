@@ -6,6 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Boilerplate.Shared.Models;
+using Microsoft.AspNetCore.Identity;
+using Boilerplate.AuthServer.Security;
+using Boilerplate.AuthServer.Security.Model;
+using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Boilerplate.Shared.Models.Fundamentals;
+using System.Security.Claims;
 
 namespace Boilerplate.AuthServer.Controllers
 {
@@ -15,141 +22,103 @@ namespace Boilerplate.AuthServer.Controllers
     {
         private readonly aspnetBoilerplateContext _context;
 
-        public UsersController(aspnetBoilerplateContext context)
+        public UsersController(aspnetBoilerplateContext context, UserManager<User> userManager,
+            SignInManager<User> signInManager, IJwtAuthManager jwtAuthManager)
         {
             _context = context;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _jwtAuthManager = jwtAuthManager;
         }
 
-        [HttpGet]
-        public async Task<string> Index()
-        {
-            return "123";
-            //return View(await _context.AspNetUsers.ToListAsync());
-        }
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IJwtAuthManager _jwtAuthManager;
 
-        // GET: Users/Details/5
-        public async Task<IActionResult> Details(string id)
+
+        [TempData]
+        public string StatusMessage { get; set; }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
-            if (id == null)
+            var user = new User
             {
-                return NotFound();
+                UserName = model.Email,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Surname = model.Surname,
+                Name = model.Name,
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return BadRequest();
             }
 
-            var aspNetUsers = await _context.AspNetUsers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aspNetUsers == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(aspNetUsers);
         }
 
-        // GET: Users/Create
-        public IActionResult Create()
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Login")]
+        public async Task<Response<LoginResultDto>> Login([FromBody] LoginDto model)
         {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != default(User))
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: true);
+                if (result.Succeeded)
+                {
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name,model.Email)
+                    };
+
+                    var jwtResult = _jwtAuthManager.GenerateTokens(model.Email, claims, DateTime.Now);
+                    return await Response<LoginResultDto>.Run(new LoginResultDto() { AccessToken = jwtResult.AccessToken });
+                }
+            }
+            else
+            {
+                return await Response<LoginResultDto>.Catch(new ResponseError() { Message = "Invalid Credentials" });
+            }
+
+            return await Response<LoginResultDto>.Catch(new ResponseError() { Message = "Bad Request" });
+        }
+
+
+        [HttpPost("LogOff")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
             return Ok();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AspNetUsers aspNetUsers)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(aspNetUsers);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return Ok(aspNetUsers);
-        }
+        //[HttpPost("SendVerificationEmail")]
+        //public async Task<IActionResult> SendVerificationEmail([FromBody] ConfirmMailDto model)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(model.Email);
+        //    if (user == null)
+        //    {
+        //        return NotFound(_userManager.GetUserId(User));
+        //    }
 
-        // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            var aspNetUsers = await _context.AspNetUsers.FindAsync(id);
-            if (aspNetUsers == null)
-            {
-                return NotFound();
-            }
-            return Ok(aspNetUsers);
-        }
+        //    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] AspNetUsers aspNetUsers)
-        {
-            if (id != aspNetUsers.Id)
-            {
-                return NotFound();
-            }
+        //    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, HttpContext.Request.Scheme);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(aspNetUsers);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AspNetUsersExists(aspNetUsers.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return Ok(aspNetUsers);
-        }
-
-        // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aspNetUsers = await _context.AspNetUsers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (aspNetUsers == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(aspNetUsers);
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var aspNetUsers = await _context.AspNetUsers.FindAsync(id);
-            _context.AspNetUsers.Remove(aspNetUsers);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool AspNetUsersExists(string id)
-        {
-            return _context.AspNetUsers.Any(e => e.Id == id);
-        }
+        //    //await _emailSender.SendEmailAsync(model.Email, "ConfirmEmailTitle", string.Concat("ConfirmEmailBody"));
+        //    StatusMessage = "VerificationSent";
+        //    return Ok();
+        //}
     }
 }

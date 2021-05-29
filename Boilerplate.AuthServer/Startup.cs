@@ -1,5 +1,6 @@
 using Boilerplate.AuthServer.Data;
 using Boilerplate.AuthServer.Security;
+using Boilerplate.AuthServer.Security.Model;
 using Boilerplate.Shared.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -38,7 +39,7 @@ namespace Boilerplate.AuthServer
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddDbContext<aspnetBoilerplateContext>();
